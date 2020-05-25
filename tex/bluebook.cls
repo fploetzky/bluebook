@@ -1,7 +1,7 @@
 %% scrbluebook - a specialization for scrbook
 %% Based on the KOMA classes by Frank Neukam, Markus Kohm and Axel Kielhorn
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{tex/scrbluebook}[2020/05/25 scrbluebook]
+\ProvidesClass{tex/bluebook}[2020/05/25 scrbluebook]
 \LoadClass[
 	12pt,
 	cleardoublepage=plain,  % page numbers on blank pages
