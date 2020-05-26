@@ -79,12 +79,12 @@
 	pdfpagelayout=TwoPageRight, % Activate 2-page layout for PDFs (if the PDF viewer supports this view)
 	% hidelinks,
 	colorlinks=true,
-	linkcolor=cbpurple,
+	linkcolor=cb-purple,
 	anchorcolor=black,
-	citecolor=cbgreen,
-	filecolor=cbcyan,
-	menucolor=cbred,
-	urlcolor=cbcyan
+	citecolor=cb-green,
+	filecolor=cb-cyan,
+	menucolor=cb-red,
+	urlcolor=cb-cyan
 ]{hyperref}
 
 \usepackage{url}
@@ -160,7 +160,7 @@
 % tracking=true, kerning=true, spacing=true - activate these techniques
 % factor=1100 - add 10% to the protrusion amount (default is 1000)
 % stretch=10, shrink=10 - reduce stretchability/shrinkability (default is 20/20)
-% Provided by http://www.khirevich.com/latex/microtype/
+% Provided by Siarhei Khirevich (http://www.khirevich.com/latex/microtype/)
 \usepackage[
 	activate={true,nocompatibility},
 	final,
@@ -171,6 +171,7 @@
 	stretch=10,
 	shrink=10
 ]{microtype}
+\microtypecontext{spacing=nonfrench}
 
 % for the landscape command (also in PDFs)
 %\usepackage{lscape} 
