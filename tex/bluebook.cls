@@ -1,7 +1,7 @@
 %% scrbluebook - a specialization for scrbook
 %% Based on the KOMA classes by Frank Neukam, Markus Kohm and Axel Kielhorn
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{tex/bluebook}[2020/05/25 scrbluebook]
+\ProvidesClass{tex/bluebook}[2020/05/25 bluebook]
 \LoadClass[
 	12pt,
 	cleardoublepage=plain,  % page numbers on blank pages
@@ -349,3 +349,46 @@
 %\makeatletter
 %\renewcommand\@pnumwidth{3em}
 %\makeatother
+
+% Build title page
+\RequirePackage{etoolbox}
+\RequirePackage{pdfpages}
+\RequirePackage{anyfontsize}
+
+\makeatletter
+\renewcommand{\maketitle}{%
+   \thispagestyle{empty}
+   % Cover
+   \includepdf[pages=-,pagecommand={\begin{tikzpicture}[remember picture, overlay]
+      \node at (2.5, 1) {\fontsize{40}{40}\sffamily\color{chaptercolor}\@title};
+      \node at (1.5, -2) {\fontsize{30}{30}\sffamily\color{black}\@author};
+	\end{tikzpicture}}]{tex/cover/cover}
+	% dirty fix - there should be a better way
+	\newpage\thispagestyle{empty}%
+
+  % Title page
+  \begin{titlepage}%
+	\vspace*{3cm}
+   	\begin{minipage}[t]{\textwidth}
+		\centering\sffamily\Huge\color{chaptercolor}%
+		\@title\par
+	\end{minipage}\par
+	\vspace*{3cm}%
+   	\begin{minipage}[t]{\textwidth}%
+		\centering\sffamily\Large
+		by
+	\end{minipage}\par
+	\vspace*{1cm}%
+   	\begin{minipage}[t]{\textwidth}%
+		\centering\sffamily\LARGE\color{chaptercolor}%
+		\@author\par
+	\end{minipage}\par
+	\vfill
+   	\begin{minipage}[t]{\textwidth}%
+		\centering\sffamily\Large\color{black}%
+		\textcopyright{} \@date
+	\end{minipage}\par
+  \end{titlepage}%
+  \newpage\thispagestyle{empty}%
+}
+\makeatother
