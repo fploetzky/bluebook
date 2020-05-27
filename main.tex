@@ -1,4 +1,4 @@
-\documentclass[german]{tex/bluebook}
+\documentclass[english]{tex/bluebook}
 
 \usepackage{blindtext}
 
@@ -17,6 +17,12 @@
 	\section{First Section}
 	\blindtext[10]
 	\section{Second Section}
-	And now on with the show$\sidenotePart{Sidenote}$. Some features are the sidenote options in two flavours.
+	And now on with the show$\sidenotePart{Sidenote}$. Some features are the sidenote options in two flavours.\index{A Index}
 	\blindtext[5]
+	\chapter{Second Chapter}
+	$\sidenoteHint{A hint}$And here are more information\index{B Index}
+	\blindtext[5]
+
+	\printindex
+	\closeBook{This is the dust cover blurb. \blindtext[2]}
 \end{document}

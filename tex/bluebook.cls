@@ -392,3 +392,28 @@
   \newpage\thispagestyle{empty}%
 }
 \makeatother
+
+% Index
+\RequirePackage{imakeidx}
+\indexsetup{othercode=\small}
+\makeindex[program=makeindex,columns=2,intoc=true,options={-s index_style.ist}]
+
+\makeatletter
+% prevent page breaks before subitems in the Index
+% https://tex.stackexchange.com/questions/130169/how-can-i-prevent-a-column-break-before-the-first-sub-entry-in-the-index
+\renewcommand\subitem{\@idxitem\nobreak\hspace*{20\p@}}
+\makeatother
+
+\makeatletter
+\newcommand{\closeBook}[1]{%
+\newpage\thispagestyle{empty}
+{\Huge\color{chaptercolor}\sffamily\@title}\par
+\vspace*{0.5cm}
+{\Large\color{black}\sffamily\@author}\par
+\vspace*{1cm}
+#1
+\begin{tikzpicture}[remember picture,overlay]
+	\fill [remember picture,overlay,chaptercolor] (current page.south west) -- (current page.south east) --++(0,5cm) -| (current page.south west) -- cycle;
+\end{tikzpicture}%
+}
+\makeatother
