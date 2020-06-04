@@ -4,11 +4,11 @@
 \ProvidesClass{tex/bluebook}[2020/05/25 bluebook]
 \LoadClass[
 	12pt,
-	cleardoublepage=plain,  % page numbers on blank pages
 	twoside,
 	bibliography=totoc,
 	listof=totoc,
-	titlepage
+	titlepage,
+	headings=twolinechapter
 ]{scrbook}
 
 %% Options for this class
@@ -263,7 +263,7 @@
 \setlength{\parskip}{0.15em}
 
 % disable the ident for the paragraphs
-\setlength{\parindent}{0pt}
+%\setlength{\parindent}{0pt}
 
 % Change the caption titles
 \usepackage{caption}
@@ -406,7 +406,6 @@
 	\end{tikzpicture}%
 }
 
-
 \makeatletter
 % prevent page breaks before subitems in the Index
 % https://tex.stackexchange.com/questions/130169/how-can-i-prevent-a-column-break-before-the-first-sub-entry-in-the-index
@@ -425,7 +424,7 @@
 
 \vspace*{1.5cm}
 \begin{tikzpicture}[remember picture,overlay]
-	\draw[chaptercolor,line width=3pt] (-3,0) -- (18,0);
+	\draw[chaptercolor,line width=3pt] (-4,0) -- (18,0);
 \end{tikzpicture}%
 
 \vspace*{2.5cm}
@@ -440,5 +439,53 @@
 \end{tikzpicture}%
 \positiontextbox{18cm}{28cm}{\sffamily\@date}
 }
-
 \makeatother
+
+% Remove the page number from "part" pages
+% https://latex.org/forum/viewtopic.php?t=4293
+\makeatletter
+\renewcommand\part{%
+	\if@openright
+	\cleardoublepage
+	\else
+	\clearpage
+	\fi
+	\thispagestyle{empty}%
+	\if@twocolumn
+	\onecolumn
+	\@tempswatrue
+	\else
+	\@tempswafalse
+	\fi
+	\null\vfil
+	\secdef\@part\@spart}
+\makeatother
+
+% The table of contents
+% https://tex.stackexchange.com/questions/416523/remove-page-number-for-part-and-define-space-before-page-number-with-tocbasic
+\newcommand\gobble[1]{}
+%\newcommand\tocpageseparator{\footnotesize\,\mbox{---}\,}
+\newcommand\tocpagenumberbox[1]{\mbox{#1}}
+
+%% Chapter style
+% https://tex.stackexchange.com/questions/298491/replace-titlesec-chapter-style-with-koma
+\RedeclareSectionCommand[
+	beforeskip=\dimexpr3.3\baselineskip+1\parskip\relax,
+	innerskip=0pt,% <- space between chapter number and chapter title
+	afterskip=10\baselineskip
+%	afterskip=1.725\baselineskip plus .115\baselineskip minus .192\baselineskip	
+]{chapter}
+
+\renewcommand\raggedchapter{\centering}
+\renewcommand\chapterformat{{\fontsize{80pt}{80pt}\selectfont\textcolor{chaptercolor!25}{\thechapter}}}
+
+\RedeclareSectionCommands[
+	beforeskip=0pt plus 1ex minus .2ex,
+	afterskip=1sp plus .2ex,
+	toclinefill=\hfill
+]{section,subsection}
+\renewcommand*{\sectionformat}{\thesection\hspace*{1em}}
+\renewcommand*{\subsectionformat}{\thesubsection\hspace*{1em}}
+
+% maximium subsection for the TOC
+\setcounter{secnumdepth}{2}
