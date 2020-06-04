@@ -472,16 +472,18 @@
 \RedeclareSectionCommand[
 	beforeskip=\dimexpr3.3\baselineskip+1\parskip\relax,
 	innerskip=0pt,% <- space between chapter number and chapter title
-	afterskip=10\baselineskip
+	afterskip=10\baselineskip,
+	pagestyle=empty
 %	afterskip=1.725\baselineskip plus .115\baselineskip minus .192\baselineskip	
 ]{chapter}
 
 \renewcommand\raggedchapter{\centering}
+\renewcommand\raggedsection{\centering}
 \renewcommand\chapterformat{{\fontsize{80pt}{80pt}\selectfont\textcolor{chaptercolor!25}{\thechapter}}}
 
 \RedeclareSectionCommands[
-	beforeskip=0pt plus 1ex minus .2ex,
-	afterskip=1sp plus .2ex,
+%	beforeskip=1\baselineskip,%0pt plus 1ex minus .2ex,
+%	afterskip=3\baselineskip,%1sp plus .2ex,
 	toclinefill=\hfill
 ]{section,subsection}
 \renewcommand*{\sectionformat}{\thesection\hspace*{1em}}
@@ -489,3 +491,4 @@
 
 % maximium subsection for the TOC
 \setcounter{secnumdepth}{2}
+
