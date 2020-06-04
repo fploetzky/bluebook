@@ -103,7 +103,7 @@
 %% Header and Footer
 % compare the KOMA manual p. 263 and following
 \usepackage[
-	footsepline,       % separator for the footer
+%	footsepline,       % separator for the footer
 	headsepline,       % separator for the header
 	plainfootsepline,  % like footsepline but for the "plain" pages (e.g. chapter pages)
 	autooneside=false, % didn't quite got the point ... needed in combination with automark
@@ -121,28 +121,25 @@
 % https://tex.stackexchange.com/questions/360785/how-do-i-check-if-a-document-is-oneside-or-twoside
 \makeatletter
 \if@twoside
-	% <-- even  odd -->
-	% for the twoside scenario we need to display a page number on the left side of the footer
-	% if the page number is even - otherwise it should be displayed on the right side of the footer
-	% \rofoot[\textbf{\thepage}]{\textbf{\thepage}}
-	% \lefoot[\textbf{\thepage}]{\textbf{\thepage}}
-	\rofoot[\thepage]{\color{chaptercolor}\thepage}
-	\lefoot[\thepage]{\color{chaptercolor}\thepage}
-	% delete default number in the footer's center
-	\cefoot[]{}
-	\cofoot[]{}
-\else
-	% for oneside the page number should always be on the right side
-	% \refoot[\textbf{\thepage}]{\textbf{\thepage}}
-	% \rofoot[\textbf{\thepage}]{\textbf{\thepage}}
-	\refoot[\thepage]{\color{chaptercolor}\thepage}
-	\rofoot[\thepage]{\color{chaptercolor}\thepage}
+	\cehead{\headmark}
+	\lehead[\pagemark]{\pagemark}
+	\rohead[\pagemark]{\pagemark}
+	\cohead{\headmark}
 	
-	% again delete the default page number
-	\cefoot[]{}
-	\cofoot[]{}
+	\lofoot{}
+	\lefoot{}
+	\cofoot{}
+	\cefoot{}		
+	\rofoot{}
+	\refoot{}	
+\else
+	\rehead{\headmark}
+	\rehead[\pagemark]{\pagemark}
+	\rohead[\pagemark]{\pagemark}
+	\rohead{\headmark}
 \fi  
 \makeatother
+
 
 %% Page setup
 % page borders
