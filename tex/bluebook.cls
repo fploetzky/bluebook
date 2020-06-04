@@ -46,6 +46,7 @@
 \RequirePackage{tikz}
 \usetikzlibrary{fadings}
 \usetikzlibrary{plotmarks}
+\usetikzlibrary{calc}
 
 \RequirePackage{pgfplots}
 \pgfplotsset{compat=newest} % use the newest version for cross-compatibility
@@ -398,6 +399,14 @@
 \indexsetup{othercode=\small}
 \makeindex[program=makeindex,columns=2,intoc=true,options={-s index_style.ist}]
 
+\newcommand{\positiontextbox}[4][]{%
+	\begin{tikzpicture}[remember picture,overlay]%
+	%    \draw[step=0.5,gray!80!white] (current page.north west) grid (current page.south east); % For controlling
+	\node[inner sep=10pt, right] at ($(current page.north west) + (#2,-#3)$) {\large\sffamily\color{white}#4};%
+	\end{tikzpicture}%
+}
+
+
 \makeatletter
 % prevent page breaks before subitems in the Index
 % https://tex.stackexchange.com/questions/130169/how-can-i-prevent-a-column-break-before-the-first-sub-entry-in-the-index
@@ -407,13 +416,29 @@
 \makeatletter
 \newcommand{\closeBook}[1]{%
 \newpage\thispagestyle{empty}
-{\Huge\color{chaptercolor}\sffamily\@title}\par
-\vspace*{0.5cm}
-{\Large\color{black}\sffamily\@author}\par
-\vspace*{1cm}
-#1
-\begin{tikzpicture}[remember picture,overlay]
-	\fill [remember picture,overlay,chaptercolor] (current page.south west) -- (current page.south east) --++(0,5cm) -| (current page.south west) -- cycle;
-\end{tikzpicture}%
+\positiontextbox{1.0cm}{2.5}{
+	{\Huge\color{chaptercolor}\sffamily\@title}
 }
+\positiontextbox{1.0cm}{4cm}{
+	{\Large\color{black}\sffamily\@author}\par
+}
+
+\vspace*{1.5cm}
+\begin{tikzpicture}[remember picture,overlay]
+	\draw[chaptercolor,line width=3pt] (-3,0) -- (18,0);
+\end{tikzpicture}%
+
+\vspace*{2.5cm}
+
+\centering
+\begin{minipage}[c]{0.85\linewidth}
+	\sffamily\large#1
+\end{minipage}
+
+\begin{tikzpicture}[remember picture,overlay]
+	\fill [remember picture,overlay,chaptercolor] (current page.south west) -- (current page.south east) --++(0,4cm) -| (current page.south west) -- cycle;
+\end{tikzpicture}%
+\positiontextbox{18cm}{28cm}{\sffamily\@date}
+}
+
 \makeatother
