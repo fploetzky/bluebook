@@ -388,3 +388,5 @@
 % maximium subsection for the TOC
 \setcounter{secnumdepth}{2}
 
+% this should not be ...
+\vbadness=\maxdimen
