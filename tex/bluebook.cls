@@ -1,7 +1,7 @@
 %% scrbluebook - a specialization for scrbook
 %% Based on the KOMA classes by Frank Neukam, Markus Kohm and Axel Kielhorn
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{tex/bluebook}[2020/05/25 bluebook]
+\ProvidesClass{tex/bluebook}[2020/06/08 bluebook]
 \LoadClass[
 	12pt,
 	twoside,
@@ -31,7 +31,7 @@
 \RequirePackage[babel=true]{csquotes}
 \RequirePackage{xcolor}
 
-% Graphic handling
+%% Graphic handling
 \RequirePackage{graphicx}
 \graphicspath{{graphics/}}
 
@@ -90,7 +90,7 @@
 \usepackage{url}
 \urlstyle{tt}
 
-% improved referencing in the document. Use \cref{<bib key>}
+% improved referencing in the document. Use \cref{<ref key>}
 \usepackage[
 	capitalise,
 	noabbrev
@@ -192,16 +192,11 @@
 ]{microtype}
 \microtypecontext{spacing=nonfrench}
 
-% for the landscape command (also in PDFs)
-%\usepackage{lscape} 
-\usepackage{pdflscape}
-
 % side notes
 \usepackage{marginnote}
 
 % change default appearance of the side notes
 \renewcommand*{\marginfont}{\color{chaptercolor}\footnotesize\sffamily}
-
 
 % map \Ifthispageodd to \ifthispageodd for backward compatibility reasons
 \ifdefined\Ifthispageodd
@@ -244,14 +239,19 @@
 %\renewcommand\@pnumwidth{3em}
 %\makeatother
 
-% Build title page
+% Build title page and cover
 \RequirePackage{etoolbox}
 \RequirePackage{pdfpages}
 \RequirePackage{anyfontsize}
 
 \makeatletter
 \renewcommand{\maketitle}{%
-	 \hypersetup{pageanchor=false}
+	 \hypersetup{
+	 	pageanchor=false,
+	 	pdftitle    = {\@title},
+	 	pdfsubject  = {\@date},
+	 	pdfauthor   = {\@author}
+ 	}
    \thispagestyle{empty}
    % Cover
    \includepdf[pages=-,pagecommand={\begin{tikzpicture}[remember picture, overlay]
@@ -262,8 +262,6 @@
 	\newpage\thispagestyle{empty}%
 
   % Title page
- 
- 
   \begin{titlepage}%
   	\centering
   	\vspace*{3cm}
@@ -290,7 +288,7 @@
 }
 \makeatother
 
-% Index
+% The Index
 \RequirePackage{imakeidx}
 \indexsetup{othercode=\small, firstpagestyle=empty}
 \makeindex[program=makeindex,columns=2,intoc=true,options={-s index_style.ist}]
@@ -308,6 +306,7 @@
 \renewcommand\subitem{\@idxitem\nobreak\hspace*{20\p@}}
 \makeatother
 
+%% Close Book command for the back cover
 \makeatletter
 \newcommand{\closeBook}[1]{%
 \newpage\thispagestyle{empty}
