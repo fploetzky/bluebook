@@ -100,6 +100,29 @@
 % alter the appearance of sub-references in subfigure environments to the thesis standard
 \newcommand{\styleSubref}[1]{{\sffamily\bfseries\color{chaptercolor}(\subref{#1})}}
 
+% end notes
+\RequirePackage{enotez}
+
+%\DeclareInstance{enotez-list}{custom}{paragraph}
+%{
+%    notes-sep = \baselineskip,
+%    format    = \normalfont,
+%    number = \textsuperscript{#1}
+%}
+
+\renewcommand*\enmark[1]{\textsuperscript{#1.}}
+
+\setenotez{
+	backref,
+	totoc=chapter,
+	split=chapter,
+	split-title={\chaptername\ <ref>}
+}
+
+% footnotes should become endnotes
+\let\footnote=\endnote
+
+
 %% Header and Footer
 % compare the KOMA manual p. 263 and following
 \usepackage[
