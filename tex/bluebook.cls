@@ -3,7 +3,7 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{tex/bluebook}[2020/05/25 bluebook]
 \LoadClass[
-	12pt,
+	13pt,
 	twoside,
 	bibliography=totoc,
 	listof=totoc,
@@ -381,7 +381,7 @@
 		\centering\sffamily\LARGE\color{chaptercolor}%
 		\@author\par
 	\end{minipage}\par
-	\vfill
+	\vspace{10cm}
    	\begin{minipage}[t]{\textwidth}%
 		\centering\sffamily\Large\color{black}%
 		\textcopyright{} \@date
@@ -393,7 +393,7 @@
 
 % Index
 \RequirePackage{imakeidx}
-\indexsetup{othercode=\small}
+\indexsetup{othercode=\small, firstpagestyle=empty}
 \makeindex[program=makeindex,columns=2,intoc=true,options={-s index_style.ist}]
 
 \newcommand{\positiontextbox}[4][]{%
