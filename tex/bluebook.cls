@@ -3,7 +3,7 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{tex/bluebook}[2020/05/25 bluebook]
 \LoadClass[
-	13pt,
+	12pt,
 	twoside,
 	bibliography=totoc,
 	listof=totoc,
@@ -71,15 +71,14 @@
 % Color for the chapter titles and sidenotes (dark blue)
 \definecolor{chaptercolor}{HTML}{0047AB}
 
-%% New commands
-\newcommand{\providedByMe}{ProvidedByMe}
-
 %% Hyperref
 % PDF linkings and metadata
 \usepackage[
 	pdfpagelayout=TwoPageRight, % Activate 2-page layout for PDFs (if the PDF viewer supports this view)
 	% hidelinks,
 	colorlinks=true,
+	pdfpagelabels,
+	plainpages=false,
 	linkcolor=cb-purple,
 	anchorcolor=black,
 	citecolor=cb-green,
@@ -102,15 +101,7 @@
 
 % end notes
 \RequirePackage{enotez}
-
-%\DeclareInstance{enotez-list}{custom}{paragraph}
-%{
-%    notes-sep = \baselineskip,
-%    format    = \normalfont,
-%    number = \textsuperscript{#1}
-%}
-
-\renewcommand*\enmark[1]{\textsuperscript{#1.}}
+\renewcommand*\enmark[1]{\textsuperscript{\textbf{#1.}}}
 
 \setenotez{
 	backref,
@@ -122,10 +113,10 @@
 % footnotes should become endnotes
 \let\footnote=\endnote
 
-
 %% Header and Footer
 % compare the KOMA manual p. 263 and following
 \usepackage[
+%	headwidth=textwithmarginpar,
 %	footsepline,       % separator for the footer
 	headsepline,       % separator for the header
 	plainfootsepline,  % like footsepline but for the "plain" pages (e.g. chapter pages)
@@ -137,7 +128,8 @@
 
 % Set the font family and size for header and footer
 \setkomafont{pageheadfoot}{\small\sffamily\color{chaptercolor}}
-\setkomafont{pagehead}{\itshape\sffamily\color{chaptercolor}} % \bfseries
+\setkomafont{pagehead}{\itshape\sffamily\color{chaptercolor}} 
+\addtokomafont{pagenumber}{\color{chaptercolor}}
 
 % We have to change header and footer with respect to even and odd page numbers.
 % Additionally, the design depends on the print style (oneside vs twoside).
@@ -163,12 +155,18 @@
 \fi  
 \makeatother
 
+%\RequirePackage{emptypage}
 
 %% Page setup
 % page borders
 \usepackage{geometry} 
 \geometry{a4paper}
-\geometry{left=30mm,right=30mm,top=30mm,bottom=25mm,head=14.5pt}
+\geometry{
+	textwidth=400pt,
+	top=40mm,
+	bottom=35mm,
+	head=15pt
+}
 
 % suppress widows and orphans
 \clubpenalty = 10000
@@ -202,75 +200,8 @@
 \usepackage{marginnote}
 
 % change default appearance of the side notes
-\renewcommand*{\marginfont}{\itshape\color{chaptercolor}\footnotesize\sffamily}
+\renewcommand*{\marginfont}{\color{chaptercolor}\footnotesize\sffamily}
 
-% Small TikZ graphics for various purposes
-\newcommand{\triangleRightSide}{
-	\scalebox{.1}{
-		\begin{tikzpicture}
-		\draw[fill=black] (2,0) -- (2,2) -- (0,1) -- (2,0);
-		\end{tikzpicture}
-	}
-}
-
-\newcommand{\triangleLeftSide}{
-	\scalebox{.1}{
-		\begin{tikzpicture}
-		\draw[fill=black] (0,0) -- (0,2) -- (2,1) -- (0,0);
-		\end{tikzpicture}
-	} 
-}
-
-\newcommand{\triangleRegular}{
-	\scalebox{0.08}{
-		\begin{tikzpicture}
-		\draw[fill=black] (0,0) 
-		-- (4,0) 
-		-- (2,4) 
-		-- cycle;
-		\end{tikzpicture}
-	}
-}
-
-\newcommand{\mySquare}{
-	\scalebox{0.05}{
-		\begin{tikzpicture}
-		\draw[fill=chaptercolor, color=chaptercolor] (0,0) 
-		-- (4,0) 
-		-- (4,4) 
-		-- (0,4)
-		-- cycle;
-		\end{tikzpicture}
-	}
-}
-
-\newcommand{\myBlackSquare}{
-	\scalebox{0.05}{
-		\begin{tikzpicture}
-		\draw[fill=black, color=black] (0,0) 
-		-- (4,0) 
-		-- (4,4) 
-		-- (0,4)
-		-- cycle;
-		\end{tikzpicture}
-	}
-}
-
-\newcommand{\myCircle}{
-	% \scalebox{0.08}{
-	\begin{tikzpicture}
-	\draw[fill=black] (0,0) circle (.7ex);
-	\end{tikzpicture}
-	% }
-}
-
-\newcommand{\myDiamond}{
-	\scalebox{0.08}{
-		\begin{tikzpicture}
-		\draw[fill=black] (2,0) -- (4,2) -- (2,4) -- (0,2) -- cycle;
-		\end{tikzpicture}
-	}
-}
 
 % map \Ifthispageodd to \ifthispageodd for backward compatibility reasons
 \ifdefined\Ifthispageodd
@@ -306,64 +237,6 @@
 \newcommand*\circled[1]{\tikz[baseline=(char.base)]{
 		\node[shape=circle,draw,inner sep=1pt] (char) {#1};}}
 
-%% Side annotations in two variants
-%% Hints for notation elements or misc stuff. Displayed with a side triangle
-\makeatletter
-\if@twoside
-\newcommand{\sidenoteHint}[1]{
-	\Ifthispageodd{
-		% odd page: <- text
-		\marginnote{
-			\triangleRightSide\\
-			#1
-		}
-	}{
-		\marginnote{
-			\triangleLeftSide\\
-			#1
-		}
-	}
-}
-\else
-\newcommand{\sidenoteHint}[1]{
-	\marginnote[right]{
-		\triangleRightSide\\
-		#1
-	}
-}
-\fi  
-\makeatother
-
-% Side annotation if a new concept is introduced or a new part in running text begins
-% annotated with a square
-\makeatletter
-\if@twoside
-\newcommand{\sidenotePart}[1]{
-	\Ifthispageodd{
-		% odd page: <- text
-		\marginnote{
-			\mySquare\\
-			#1
-		}
-	}{
-		% even page: text ->
-		\marginnote{
-			\mySquare\\
-			#1
-		}
-	}
-}
-\else
-% one page setup => always display side notes on the right side
-\newcommand{\sidenotePart}[1]{
-	\marginnote[right]{
-		\mySquare\\
-		#1
-	}
-}
-\fi  
-\makeatother
-
 %% Enlarge the box holding the page numbers in the lists of everything. Needed if the
 %% appendix grows and the roman numbers break the default box size
 %% https://tex.stackexchange.com/questions/502159/scrbook-roman-page-numbers-in-toc-are-wider-than-textwidth
@@ -378,6 +251,7 @@
 
 \makeatletter
 \renewcommand{\maketitle}{%
+	 \hypersetup{pageanchor=false}
    \thispagestyle{empty}
    % Cover
    \includepdf[pages=-,pagecommand={\begin{tikzpicture}[remember picture, overlay]
@@ -388,29 +262,31 @@
 	\newpage\thispagestyle{empty}%
 
   % Title page
+ 
+ 
   \begin{titlepage}%
-	\vspace*{3cm}
-   	\begin{minipage}[t]{\textwidth}
-		\centering\sffamily\Huge\color{chaptercolor}%
-		\@title\par
-	\end{minipage}\par
+  	\centering
+  	\vspace*{3cm}
+  	{\centering\sffamily\Huge\color{chaptercolor}%
+	\@title}
 	\vspace*{3cm}%
-   	\begin{minipage}[t]{\textwidth}%
-		\centering\sffamily\Large
-		by
-	\end{minipage}\par
+	
+	{\sffamily\Large
+			by}
+		
 	\vspace*{1cm}%
-   	\begin{minipage}[t]{\textwidth}%
-		\centering\sffamily\LARGE\color{chaptercolor}%
-		\@author\par
-	\end{minipage}\par
+	
+	{\sffamily\LARGE\color{chaptercolor}%
+				\@author}
+			
 	\vspace{10cm}
-   	\begin{minipage}[t]{\textwidth}%
-		\centering\sffamily\Large\color{black}%
-		\textcopyright{} \@date
-	\end{minipage}\par
+	
+	{\sffamily\Large\color{black}%
+				\textcopyright{} \@date}
   \end{titlepage}%
+ 
   \newpage\thispagestyle{empty}%
+%  \hypersetup{pageanchor=true}
 }
 \makeatother
 
