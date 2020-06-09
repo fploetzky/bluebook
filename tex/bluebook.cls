@@ -110,9 +110,6 @@
 	split-title={\chaptername\ <ref>}
 }
 
-% footnotes should become endnotes
-\let\footnote=\endnote
-
 %% Header and Footer
 % compare the KOMA manual p. 263 and following
 \usepackage[
@@ -309,9 +306,11 @@
 %% Close Book command for the back cover
 \makeatletter
 \newcommand{\closeBook}[1]{%
-\newpage\thispagestyle{empty}
-\positiontextbox{1.0cm}{2.5}{
-	{\Huge\color{chaptercolor}\sffamily\@title}
+	\newpage\thispagestyle{empty}
+	\phantom{e} % force the back cover to actually be the last page
+	\newpage\thispagestyle{empty}
+	\positiontextbox{1.0cm}{2.5}{
+		{\Huge\color{chaptercolor}\sffamily\@title}
 }
 \positiontextbox{1.0cm}{4cm}{
 	{\Large\color{black}\sffamily\@author}\par
